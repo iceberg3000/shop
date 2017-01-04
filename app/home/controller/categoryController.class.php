@@ -4,7 +4,7 @@ class categoryController{
     public function indexAction(){
         $Category = new categoryModel();
         $data = $Category->getData();
-        require './index.html';
+        require ACTION_VIEW;
     }
 
     public function addAction(){}

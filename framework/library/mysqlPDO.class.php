@@ -9,13 +9,15 @@ class mysqlPDO{
     private function __clone(){}                //禁止克隆
     //连接目标服务器（本方法只在构造方法中调用一次）
     private static function _connect(){
-        $config = $GLOBALS['dbConfig'];         //通过全局变量获取数据库配置信息
+        //$config = $GLOBALS['dbConfig'];         //通过全局变量获取数据库配置信息
+        $config = C('DB_CONFIG');                 //获取项目的数据库配置信息
         //准备PDO的DSN连接信息
         $dsn = "{$config['db']}:host={$config['host']};port={$config['port']};dbname={$config['dbname']};charset={$config['charset']}";
         try{
             self::$db = new PDO($dsn,$config['user'],$config['pass']);  //连接数据库
         }catch(PDOException $e){
-            exit('数据库连接失败：'.$e->getMessage());
+            //exit('数据库连接失败：'.$e->getMessage());
+            E('数据库连接失败：'.$e->getMessage());     //输出错误并停止
         }
     }
     
