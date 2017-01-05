@@ -17,4 +17,25 @@ class loginController extends controller{
         empty($_SESSION) &&　session_destroy();
         $this->redirect('/?p=admin&c=login');
     }
+
+    //验证登录表单
+    public function loginExecAction(){
+        if(!$this->_checkCaptcha($_POST['captcha'])){
+            $this->error('登录失败，验证码输入有误');
+        }
+
+        //判断用户名密码
+        $data = D('admin')->checkLogin($_POST['username'],$_POST['password']);
+        $data || $this->error('登录失败，用户名或密码错误');
+
+        //登录成功
+        $_SESSION['admin'] = $data;
+        $this->success('','/shop/index.php?p=admin');
+    }
+
+    //判断验证码
+    private function _checkCaptcha($Captcha){
+        $Captcha = new captcha();
+        return $Captcha->verify($Captcha);
+    }
 }

@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>用户登录</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+    <script>
+    $(function(){
+        var $img = $("#captcha");
+        var src = $img.attr("src")+"&_=";
+        $img.click(function(){
+            $img.attr("src",src+Math.random());             //添加随机数，防止浏览器缓存图片
+        });
+        //Ajax表单提交
+        // $("#loginForm").ajaxForm(function(data){
+        //     //登录失败，刷新验证码
+        //     data.ok || $("#captcha").click();
+        // });
+    });
+    </script>
 </head>
 <body>
-    <form method="post" id="loginForm" action="/?p=admin&c=login&a=loginExec">
+    <form method="post" id="loginForm" action="/shop/index.php?p=admin&c=login&a=loginExec">
         用户名：<input type="text" name="username" required /><br/>
         密 码：<input type="password" name="password" required /><br/>
         验证码：<input type="text" name="captcha" required /><br/>
-        <img src="/index.php?p=admin&c=login&a=captcha" /><br/>
+        <img src="/shop/index.php?p=admin&c=login&a=captcha" id="captcha" title="点击刷新验证码" /><br/>
         <input type="submit" value="登录" />
     </form>
 </body>

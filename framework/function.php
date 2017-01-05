@@ -37,3 +37,26 @@ function M($name=''){
     }
     return $Model[$name];
 }
+
+//Session读写
+function session($name,$value='',$type='get'){
+	$prefix = C('SESSION_PREFIX');
+	isset($_SESSION[$prefix]) || $_SESSION[$prefix] = array();
+	switch($type){
+		case 'get':
+			return isset($_SESSION[$prefix][$name]) ? $_SESSION[$prefix][$name] : '';
+		case 'isset':
+			return isset($_SESSION[$prefix][$name]);
+		case 'save':
+			$_SESSION[$prefix][$name] = $value;
+		break;
+		case 'unset':
+			unset($_SESSION[$prefix][$name]);
+		break;
+	}
+}
+
+//密码加密
+function password($password,$salt){
+    return md5(md5($password),$salt);
+}
