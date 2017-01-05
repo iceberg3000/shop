@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+</head>
+<body>
+    <form method="post" id="loginForm" action="/?p=admin&c=login&a=loginExec">
+        用户名：<input type="text" name="username" required /><br/>
+        密 码：<input type="password" name="password" required /><br/>
+        验证码：<input type="text" name="captcha" required /><br/>
+        <img src="/index.php?p=admin&c=login&a=captcha" /><br/>
+        <input type="submit" value="登录" />
+    </form>
+</body>
+</html>
