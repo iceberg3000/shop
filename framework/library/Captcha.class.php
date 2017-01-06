@@ -51,6 +51,8 @@ class Captcha{
 	//对验证码进行验证
 	public function verify($input){
 		$captcha = session($this->name);
+		//echo $captcha;
+		//var_dump($input);
 		if(!empty($captcha)){
 			session($this->name,'','unset'); //清除验证码，防止重复验证
 			return strtoupper($captcha) == strtoupper($input); //不区分大小写

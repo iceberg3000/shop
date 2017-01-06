@@ -12,20 +12,22 @@
         $img.click(function(){
             $img.attr("src",src+Math.random());             //添加随机数，防止浏览器缓存图片
         });
-        //Ajax表单提交
-        // $("#loginForm").ajaxForm(function(data){
-        //     //登录失败，刷新验证码
-        //     data.ok || $("#captcha").click();
-        // });
+        
+        Ajax表单提交
+        $("#loginForm").ajaxForm(function(data){
+            //alert('test');
+            //登录失败，刷新验证码
+            data.ok || $("#captcha").click();
+        });
     });
     </script>
 </head>
 <body>
-    <form method="post" id="loginForm" action="/shop/index.php?p=admin&c=login&a=loginExec">
+    <form method="post" id="loginForm" action="/shop/?p=admin&c=login&a=loginExec">
         用户名：<input type="text" name="username" required /><br/>
         密 码：<input type="password" name="password" required /><br/>
         验证码：<input type="text" name="captcha" required /><br/>
-        <img src="/shop/index.php?p=admin&c=login&a=captcha" id="captcha" title="点击刷新验证码" /><br/>
+        <img src="/shop/?p=admin&c=login&a=captcha" id="captcha" title="点击刷新验证码" /><br/>
         <input type="submit" value="登录" />
     </form>
 </body>

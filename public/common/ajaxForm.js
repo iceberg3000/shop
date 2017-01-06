@@ -3,6 +3,7 @@
     $.fn.ajaxForm = function(callback){
         var thisObj = this;
         thisObj.submit(function(e){
+            //alert('ok');
             e.preventDefault();             //阻止表单默认提交动作
             var data = thisObj.serialize(); //获取表单数据
             $.ajaxPostData(thisObj.attr("action"),data,callback);

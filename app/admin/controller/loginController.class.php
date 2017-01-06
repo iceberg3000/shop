@@ -20,6 +20,7 @@ class loginController extends controller{
 
     //验证登录表单
     public function loginExecAction(){
+        //echo $_POST['captcha'];
         if(!$this->_checkCaptcha($_POST['captcha'])){
             $this->error('登录失败，验证码输入有误');
         }
@@ -34,8 +35,9 @@ class loginController extends controller{
     }
 
     //判断验证码
-    private function _checkCaptcha($Captcha){
+    private function _checkCaptcha($captcha){
+        //echo $Captcha;
         $Captcha = new captcha();
-        return $Captcha->verify($Captcha);
+        return $Captcha->verify($captcha);
     }
 }

@@ -58,5 +58,5 @@ function session($name,$value='',$type='get'){
 
 //密码加密
 function password($password,$salt){
-    return md5(md5($password),$salt);
+    return md5(md5($password).$salt);
 }
