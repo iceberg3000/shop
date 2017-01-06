@@ -11,7 +11,5 @@ class adminModel extends model{
             return array('id'=>$data['id'],'name'=>$data['username']);
         }
         return false;
-    }
-
-    
+    }    
 }

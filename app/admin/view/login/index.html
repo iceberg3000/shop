@@ -5,22 +5,10 @@
     <title>用户登录</title>
     <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="./public/common/ajaxForm.js"></script>
-    <script>
-    $(function(){
-        var $img = $("#captcha");
-        var src = $img.attr("src")+"&_=";
-        $img.click(function(){
-            $img.attr("src",src+Math.random());             //添加随机数，防止浏览器缓存图片
-        });
-        
-        Ajax表单提交
-        $("#loginForm").ajaxForm(function(data){
-            //alert('test');
-            //登录失败，刷新验证码
-            data.ok || $("#captcha").click();
-        });
-    });
-    </script>
+    <style>
+    .tip{position:fixed;top:50%;left:50%;background:#3A81C4;color:#fff;border-radius:6px;font-size:13px;box-shadow:3px 3px 15px #6b6969;z-index:1000;}
+    .tip-wrap{margin:10px 30px;}
+    </style>
 </head>
 <body>
     <form method="post" id="loginForm" action="/shop/?p=admin&c=login&a=loginExec">
@@ -30,5 +18,19 @@
         <img src="/shop/?p=admin&c=login&a=captcha" id="captcha" title="点击刷新验证码" /><br/>
         <input type="submit" value="登录" />
     </form>
+    <script>
+    $(function(){
+        var $img = $("#captcha");
+        var src = $img.attr("src")+"&_=";
+        $img.click(function(){
+            $img.attr("src",src+Math.random());             //添加随机数，防止浏览器缓存图片
+        });
+    });
+    //Ajax表单提交
+    $("#loginForm").ajaxForm(function(data){
+        //登录失败，刷新验证码
+        data.ok || $("#captcha").click();
+    });
+    </script>
 </body>
 </html>
