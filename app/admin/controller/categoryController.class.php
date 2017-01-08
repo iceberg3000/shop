@@ -60,7 +60,7 @@ class categoryController extends commonController{
         $Category = D('category');
         //只允许删除最底层分类
         if($Category->exists('pid',$id)){
-            $this->error('删除失败，只鸡毛删除最底层分类。');
+            $this->error('删除失败，只允许删除最底层分类。');
         }
         //将该分类下的商品设为未分类
         M('goods')->data(array('id'=>$id,'category_id'=>0))->save();

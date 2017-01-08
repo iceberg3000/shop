@@ -23,6 +23,7 @@
         var id=$(this).attr("data-id");
         $.ajaxPostData("/shop/index.php?p=admin&c=category&a=delExec","id="+id,
         function(data){                         //回调函数
+            //alert(data.msg);
             data.ok && location.reload();       //成功后刷新
         });
         return false;                           //阻止本身的操作
