@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑分类</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+    <style>
+    .tip{position:fixed;top:50%;left:50%;background:#3A81C4;color:#fff;border-radius:6px;font-size:13px;box-shadow:3px 3px 15px #6b6969;z-index:1000;}
+    .tip-wrap{margin:10px 30px;}
+    </style>
+</head>
+<body>
+     <form method="POST" id="form" action="/shop/index.php?p=admin&c=category&a=editExec">
+        上级分类：
+        <select name="pid">
+            <option value="0">顶级分类</option>
+            <?php foreach($data as $v){
+                echo '<option value="'.$v['id'].'"';
+                if($v['id']==$data[$id]['pid']){echo 'selected';}
+                echo '>'.str_repeat('-',$v['level']).$v['name'].'</option>';
+            }?>
+        </select>
+        分类名称：<input type="text" name="name"  value="<?=$data[$id]['name']?>" />
+        <input type="hidden" name="id" value="<?=$id?>" />
+        <input type="submit" value="修改分类" />
+        <input type="submit" value="修改并返回" id="edit_return" />
+    </form>
+    <script>
+        $("#form").ajaxForm();      //Ajax表单提交
+        $("#edit_return").click(function(){
+            $("#form").append('<input type="hidden" name="return" value="1" />');
+        });
+    </script>
+</body>
+</html>

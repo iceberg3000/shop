@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>展示商品分类列表</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+</head>
+<body>
+    <table id="category">
+        <tr><th>分类名称</th><th>操作</th></tr>
+        <?php foreach($data as $v){
+            echo '<tr><td>'.str_repeat('—',$v['level']).$v['name'].'</td>';
+            echo '<td><a href="/shop/index.php?p=admin&c=category&a=edit&id='.$v['id'].'">修改</a> ';
+            echo '<a href="#" class="act-del" data-id="'.$v['id'].'">删除</a></td></tr>';
+        }?>
+    </table>
+    <script>
+    $(".act-del").click(function(){
+        if(!confirm("您确定删除这条分类？")){
+            return false;
+        }
+        var id=$(this).attr("data-id");
+        $.ajaxPostData("/shop/index.php?p=admin&c=category&a=delExec","id="+id,
+        function(data){                         //回调函数
+            data.ok && location.reload();       //成功后刷新
+        });
+        return false;                           //阻止本身的操作
+    });
+    </script>
+</body>
+</html>
