@@ -46,6 +46,9 @@ class framework{
             ini_set('display_errors',0);
             error_reporting(0);
         }
+
+        //设置HttpOnly
+        C('PHPSESSID_HTTPONLY') && ini_set('session.cookie_httponly',1);
     }
 
     //注册自动加载

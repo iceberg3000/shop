@@ -60,3 +60,35 @@ function session($name,$value='',$type='get'){
 function password($password,$salt){
     return md5(md5($password).$salt);
 }
+
+//接收变量（参数依次为变量名，接收方法，数据类型，默认值）
+function I($var,$method='post',$type='text',$def=''){
+    switch($method){
+        case 'get':     $method = &$_GET;   break;
+        case 'post':     $method = &$_POST;   break;
+        case 'cookie':     $method = &$_COOKIE;   break;
+        case 'server':     $method = &$_SERVER;   break;
+    }
+    $value = isset($method[$var]) ? $method[$var] : $def;
+    switch($type){
+        case 'string'://字符串，不进行过滤
+            $value = is_string($value) ? $value : '';
+            break;
+        case 'text'://字符串，进行HTML转义
+            $value = is_string($value) ? trim(htmlspecialchars($value)) : '';
+            break;
+        case 'int'://整数
+            $value = (int)$value;
+            break;
+        case 'id'://无符号整数
+            $value = max((int)$value,0);
+            break;
+        case 'float'://浮点数
+            $value = (float)$value;
+            break;
+        case 'bool'://布尔型
+            $value = (bool)$value;
+            break;
+    }
+    return $value;
+}
