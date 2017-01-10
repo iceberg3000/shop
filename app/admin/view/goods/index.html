@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+</head>
+<body>
+    <div class="top-button">
+		选择商品分类：<select id="category">
+		<option value="-1" <?php if($cid==-1){ echo 'selected'; } ?>>全部</option>
+		<option value="0" <?php if($cid==0){ echo 'selected'; } ?>>未分类</option>
+		<?php foreach($data['category'] as $v){
+			echo '<option value="'.$v['id'].'" ';
+			if($v['id']==$cid){ echo 'selected'; }
+			echo '>'.str_repeat('— ',$v['level']).$v['name'].'</option>';
+		} ?>
+		</select>
+		<a href="/?p=admin&c=goods&a=add" class="light">添加商品</a>
+		<a href="/?p=admin&c=category&a=add">添加分类</a>
+	</div>
+    <table>
+        <tr><th>商品分类</th><th>商品名称</th><th>库存</th><th>上架</th><th>推荐</th><th>操作</th></tr>
+        <?php foreach($data['goods']['data'] as $v): ?>
+            <tr>
+                <td><a href="/shop/index.php?p=admin&c=goods&cid=<?=$v['category_id']?>"><?=$v['category_name'] ? $v['category_name'] : '未分类'?></a></td>
+                <td><?=$v['name']?></td>
+                <td><?=$v['stock']?></td>
+                <td>
+                    <a href="#" class="act" data-name="on_sale" data-id="<?=$v['id']?>" data-status="<?=$v['on_sale']?>"><?=($v['on_sale']=='yes') ? '是' : '否' ?></a>
+                </td>
+                <td>
+                    <a href="#" class="act" data-name="recommend" data-id="<?=$v['id']?>" data-status="<?=$v['recommend']?>"><?=($v['recommend']=='yes') ? '是' : '否' ?></a>
+                </td>
+                <td>
+                    <a href="/shop/index.php?p=admin&c=goods&a=edit&id=<?=$v['id']?>&cid=<?=$v['category_id']?>&page=<?=$page?>">修改</a>
+                    <a href="#" class="act" data-name="recycle" data-id="<?=$v['id']?>">删除</a>
+                </td>
+            </tr>
+        <?php endforeach;?>
+    </table>
+    <div><?=$data['goods']['pagelist']?></div>
+    <script>
+        //下拉菜单跳转
+        $("#category").change(function(){
+            location.href = "/shop/index.php?p=admin&c=goods&a=index&cid="+$(this).val();
+        });
+        //状态改变
+        $(".act").click(function(){
+            var name = $(this).attr('data-name');
+            if(name=="recycle" && !confirm('您确定将该商品删除到回收站吗？')){
+                return false;
+            } 
+            $.ajaxPostData("/shop/index.php?p=admin&c=goods&a=changeExec",{
+                "id":$(this).attr("data-id"),
+                "name":name,
+                "value":$(this).attr("data-status")=="yes" ? "no" : "yes"
+            },function(data){
+                data.ok && location.reload();       //完成后刷新
+            });
+        });
+    </script>
+</body>
+</html>

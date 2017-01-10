@@ -17,7 +17,13 @@ class mysqlPDO{
             self::$db = new PDO($dsn,$config['user'],$config['pass']);  //连接数据库
         }catch(PDOException $e){
             //exit('数据库连接失败：'.$e->getMessage());
-            E('数据库连接失败：'.$e->getMessage());     //输出错误并停止
+            //E('数据库连接失败：'.$e->getMessage());     //输出错误并停止
+            //连接失败
+            if(APP_DEBUG){
+                E('数据库连接失败：'.$e->getMessage());     //输出错误并停止
+            }else{
+                E('数据库连接失败');
+            }
         }
     }
     
@@ -35,7 +41,12 @@ class mysqlPDO{
         $stmt = self::$db->prepare($sql);
         foreach($data as $v){
             if($stmt->execute($v)===false){
-                exit('数据库操作失败：'.implode('-',$stmt->errorInfo()));
+                //exit('数据库操作失败：'.implode('-',$stmt->errorInfo()));
+                if(APP_DEBUG){
+                    exit('数据库操作失败：'.implode('-',$stmt->errorInfo())."\nSQL语句：".$sql);
+                }else{
+                    exit('数据库操作失败：');
+                }
             }
         }
         return $stmt;

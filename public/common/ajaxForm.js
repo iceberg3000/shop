@@ -10,6 +10,24 @@
         });
     };
 
+    /*
+	 * Ajax提交数据
+	 * @param {string} url 提交的URL地址
+	 * @param {mixed} before 提交前的函数，或提交的JSON数据，false表示阻止提交
+	 * @param {function} after  提交后的函数
+	 */
+	$.fn.ajaxButton = function(url,before,after){
+		this.click(function(){
+			//获取要提交的数据。如果是函数则调用取得返回值，如果不是则直接当做数据
+			var data = $.isFunction(before) ? before.call(this) : before;
+			//当数据是false时阻止提交
+			if (false === data) {return false;}
+			//data["token"] = $.getCSRFToken(); //获取令牌
+			$.ajaxPostData(url,data,after); //Ajax提交数据
+			return false; //阻止默认动作
+		});
+	};
+
     //Ajax提交数据并自动处理
     $.ajaxPostData = function(url,data,callback){
         $.post(url,data,function(data){

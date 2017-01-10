@@ -9,6 +9,9 @@ class framework{
 
     //初始化
     private static function init(){
+
+        
+
         //设置常量供项目内使用
         define('DS',DIRECTORY_SEPARATOR);       //路径分隔符
         define('ROOT',getcwd().DS);             //项目根目录
@@ -34,6 +37,15 @@ class framework{
         define('ACTION_VIEW',VIEW_PATH.CONTROLLER.DS.ACTION.'.html');
         //开启session
         session_start();
+
+        //开启调试时，显示错误报告
+        if(APP_DEBUG){
+            ini_set('display_errors',1);                //控制php.ini中的错误显示开关
+            error_reporting(E_ALL);                     //控制错误报告显示所有错误
+        }else{
+            ini_set('display_errors',0);
+            error_reporting(0);
+        }
     }
 
     //注册自动加载

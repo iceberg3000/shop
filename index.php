@@ -32,6 +32,8 @@
 // $Controller = new $c_name();
 // $Controller->$a_name();
 
+//项目调试开关
+define('APP_DEBUG',true);
 require './framework/framework.class.php';
 
 framework::run();
