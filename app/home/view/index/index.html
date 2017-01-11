@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>前台商城首页</title>
+</head>
+<body>
+    <!--分类左栏-->
+    <?php foreach($data['category'] as $k=>$v1): if($k<8): ?>
+        <div class = "cate">
+            <div class="subcate left"><a href="/shop/index.php?a=find&cid=<?=$v1['id']?>"><?=$v1['name']?></a></div>
+            <div class="subitem" style="display:block;">
+                <?php if(isset($v1['child'])):foreach($v1['child'] as $v2): ?>
+                <dl>
+                    <dt><a href="/shop/index.php?a=find&cid=<?=$v2['id']?>"><?=$v2['name']?></a></dt>
+                    <dd>
+                        <?php if(isset($v2['child'])): foreach($v2['child'] as $v3): ?>
+                            <a href="/shop/index.php?a=find&cid=<?=$v3['id']?>"><?=$v3['name']?></a>
+                        <?php endforeach;endif;?>
+                    </dd>
+                </dl>
+                <?php endforeach;endif;?>
+            </div>
+        </div>
+    <?php endif;endforeach;?>
+    <!--推荐商品-->
+    <div class="best-title">精品推荐</div>
+    <?php foreach($data['best'] as $v):?>
+    <ul class="item left">
+        <li>
+            <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank">
+            <?php if(empty($v['thumb'])):?>
+                <img src="/public/home/images/preview.jpg">
+            <?php else:?>
+                <img src="/public/upload/small/<?=$v['thumb']?>">
+            <?php endif;?>
+            </a>
+        </li>
+    </ul>
+    <?php endforeach ?>
+</body>
+</html>

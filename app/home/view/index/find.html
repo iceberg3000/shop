@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品列表</title>
+</head>
+<body>
+    <!--相关商品推荐-->
+    <?php foreach($data['goods']['recommend'] as $v): ?>
+        <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank">
+            <?php if($v['thumb']): ?>
+                <img src="/public/upload/small/<?=$v['thumb']?>" />
+            <?php else: ?>
+                <img src="/public/home/images/preview.jpg" />
+            <?php endif; ?>
+        </a>
+        <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank"><?=$v['name']?></a>
+        ￥<?=$v['price']?>
+    <?php endforeach; ?>
+    <!--商品列表-->
+    <?php if($data['category']['parent']): $i=0;
+        foreach($data['category']['parent'] as $v): ?>
+            分类<?=++$i?>:
+            <?php foreach($v as $vv): ?>
+                <a href="/shop/index.php?<?=view::mkFilterURL('cid',$vv['id'])?>" class="cid-<?=$vv['id']?>"><?=$vv['name']?></a>
+            <?php endforeach;?>
+        <?php endforeach;?>
+        价格：<a href="/shop/index.php?<?=view::mkFilterURL('price')?>" class="price-0">全部</a>
+        <?php foreach($data['goods']['price'] as $v): ?>
+            <a href="/shop/index.php?<?=view::mkFilterURL('price',$v)?>" class="price-<?=$v?>"><?=$v?></a>
+        <?php endforeach;?>
+        <a href="/shop/index.php?<?=view::mkFilterURL('order')?>" class="order-0">最新上架</a>
+        <a href="/shop/index.php?<?=view::mkFilterURL('order','price-asc')?>" class="order-price-desc">价格降序</a>
+        <?php if($data['goods']['data']): foreach($data['goods']['data'] as $v): ?>
+            <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank">
+                <?php if($v['thumb']):?>
+                    <img src="/public/upload/small/<?=$v['thumb']?>">
+                <?php else: ?>
+                    <img src="/public/home/images/preview.jpg" />
+                <?php endif;?>
+            </a>
+            <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank"><?=$v['name']?></a>
+            ￥<?=$v['price']?>
+        <?php endforeach;?>
+        <?=$data['goods']['pagelist']?>
+    <?php else:?>
+            没有找到您需要的商品。
+    <?php endif;?>
+    <script>
+    //筛选列表，分类的当前选中效果
+    (function(){
+        var cids=<?=json_encode($data['category']['pids'])?>;
+        for(var i in cids){
+            $(".cid-"+cids[i]).addClass("curr");
+        }
+    }());
+    //商品价格的选中效果
+    <?php if(isset($_GET['price'])):?>
+        $(".price-<?=$GET['price']?>").addClass("curr");
+    <?php else:?>
+        $(".price-0").addClass("curr");
+    <?php endif;?>
+    //商品排序的选中结果
+    <?php if(isset($_GET['order'])):?>
+        $(".order-<?=$_GET['order']?>").addClass("curr");
+    <?php else:?>
+        $(".order-0").addClass("curr");
+    <?php endif;?>
+    </script>
+</body>
+</html>

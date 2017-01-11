@@ -84,7 +84,7 @@ class framework{
     private static function getParams(){
         //获取URL参数
         $p = isset($_GET['p']) ? $_GET['p'] : 'home';
-        $c = isset($_GET['c']) ? $_GET['c'] : 'category';
+        $c = isset($_GET['c']) ? $_GET['c'] : 'index';
         $a = isset($_GET['a']) ? $_GET['a'] : 'index';
         return array($p,$c,$a);
     }
