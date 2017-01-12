@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>商品展示页</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+    <style>
+    .tip{position:fixed;top:50%;left:50%;background:#3A81C4;color:#fff;border-radius:6px;font-size:13px;box-shadow:3px 3px 15px #6b6969;z-index:1000;}
+    .tip-wrap{margin:10px 30px;}
+    </style>
 </head>
 <body>
     当前位置：
@@ -37,5 +43,40 @@
         <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank"><?=$v['name']?></a>
     <?php endforeach;?>
     商品详情<?=$data['goods']['desc']?>
+    <script>
+(function(){
+	var $num = $("#num");
+	var id = <?=$data['goods']['id']?>;
+	var stock = <?=$data['goods']['stock']?>;
+	//购买数量加减
+	$(".cnt-btn").click(function(){
+		var num = parseInt($num.val());
+		if ($(this).val() === '-') {
+			if ( num=== 1) return;
+			$num.val(num-1);
+		}else if ($(this).val() === '+') {
+			if (num === stock) return;
+			$num.val(num+1);
+		}
+	});
+	//自动纠正购买数量
+	$num.keyup(function(){
+		var num = parseInt($(this).val());
+		if(num<1){
+			$(this).val(1);
+		}else if(num > stock){
+			$(this).val(stock);
+		}
+	});
+	//添加购物车
+	$("#addCart").ajaxButton("/shop/index.php?c=cart&a=addExec",function(){
+		return {"id":id,"num":$num.val()};
+	});
+	//购买（下订单）
+	$("#buy").ajaxButton("/shop/index.php?c=order&a=addExec",function(){
+		return {"buy":[{"id":id,"num":$num.val()}]};
+	});
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车页面</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+    <style>
+    .tip{position:fixed;top:50%;left:50%;background:#3A81C4;color:#fff;border-radius:6px;font-size:13px;box-shadow:3px 3px 15px #6b6969;z-index:1000;}
+    .tip-wrap{margin:10px 30px;}
+    </style>
+</head>
+<body>
+    <form method="post">">
+        <table>
+            <tr>
+                <th><a href="#">全选</a></th>
+                <th>商品</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+            <?php foreach($data as $v): ?>
+            <tr>
+                <td><input type="checkbox" name="id[]" value="<?=$v['goods_id']?>"/></td>
+                <td>
+                    <a href="/shop/index.php?a=goods&id=<?=$v['goods_id']?>" target="_blank"><?=$v['name']?></a>
+                </td>
+                <td>
+                    <?=$v['price']?>
+                </td>
+                <td>
+                    <input type="button" value="-" />
+                    <input type="text" value="<?=$v['num']?>" name="num[]" />
+                    <input type="button" value="+" />
+                </td>
+                <td>
+                    <a href="#" data-id="<?=$v['id']?>" class="del">删除</a>
+                </td>
+            </tr>
+            <?php endforeach;?>
+            <tr>
+                <th><a>全选</a></th>
+                <td>
+                    删除选中的商品 继续购物 共<span id="num"></span>件商品 总计：￥<span id="monery"></span>
+                    <input type="submit" value="提交订单" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script>
+    $(".del").click(function(){
+        var id = $(this).attr('data-id');
+        $.ajaxPostData("/shop/index.php?c=cart&a=delExec",{"id":id},function(data){
+            data.ok && location.reload();
+        });
+    });
+    </script>
+</body>
+</html>

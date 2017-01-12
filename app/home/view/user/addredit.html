@@ -16,7 +16,7 @@
         <input id="address" type="hidden" name="address" />
         收件人：<input type="text" value="<?=$data['consignee']?>" name="consignee" />
         收件地区：<select id="province"></select><select id="city"></select><select id="area"></select>
-        详细地址：<select id="addr" type="text" />
+        详细地址：<input id="addr" type="text" />
         手机：<input type="text" value="<?=$data['phone']?>" name="phone" />
         邮箱：<input type="text" value="<?=$data['email']?>" name="email" />
         <input type="submit" value="保存" id="submit" />
@@ -48,7 +48,7 @@
             var pid = $province.val();
             if(id==="0" || $(this).find('option:selected').text()==="其他"){
                 $area.hide();
-            }else if(data[pid].sub[id].sub!==undefined{
+            }else if(data[pid].sub[id].sub!==undefined){
                 fillSelect($area,data[pid].sub[id].sub);
                 $area.show();
             }
