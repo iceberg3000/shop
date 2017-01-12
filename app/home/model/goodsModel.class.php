@@ -77,4 +77,15 @@ class goodsModel extends model{
 		}
 		return $rst;
 	}
+
+	//查询指定商品数据
+	public function getGoods($id){
+		return $this->data(array('id'=>$id))->fetchRow("select `id`,`category_id`,`sn`,`name`,`price`,`thumb`,`album`,`stock`,`desc` from __GOODS__ where `recycle`='no' and `on_sale`='yes' and `id`=:id");
+	}
+
+	//根据分类获取推荐商品
+	public function getRecommendByCids($cids){
+		$where = "`recycle`='no' and `on_sale`='yes' and `category_id` in (".implode(',',$cids).")";
+		return $this->getRecommend($where);
+	}
 }

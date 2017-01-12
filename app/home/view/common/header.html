@@ -1,0 +1,7 @@
+<?php if(IS_LOGIN):?>
+    <?=$this->user['name']?>, 欢迎来到传智商城!
+    [<a href="/shop/index.php?c=user&a=logout">退出</a>]
+<?php else:?>
+    您好，欢迎来到传智商城！[<a href="/shop/index.php?c=user&a=login">登录</a>]
+    [<a href="/shop/index.php?c=user&a=register">免费注册</a>]
+<?php endif;?>

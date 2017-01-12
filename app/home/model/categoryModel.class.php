@@ -86,4 +86,10 @@ class categoryModel extends Model{
 		return $tree;
 	}
 
+	//查找分类面包屑导航
+	public function getPath($id){
+		$data = $this->getParent($id);
+		return array_reverse($data['pcat']);
+	}
+
 }

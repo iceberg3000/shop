@@ -92,3 +92,8 @@ function I($var,$method='post',$type='text',$def=''){
     }
     return $value;
 }
+
+//生成密钥
+    function salt(){
+        return substr(uniqid(),-6);
+    }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="./public/common/ajaxForm.js"></script>
+    <style>
+    .tip{position:fixed;top:50%;left:50%;background:#3A81C4;color:#fff;border-radius:6px;font-size:13px;box-shadow:3px 3px 15px #6b6969;z-index:1000;}
+    .tip-wrap{margin:10px 30px;}
+    </style>
+</head>
+<body>
+    <form method="POST" action="/shop/index.php?c=user&a=registerExec" id="regForm">
+        用户名：<input type="text" name="username" required />
+        密码：<input type="password" id="pwd" name="password" required />
+        确认密码：<input type="password" id="pwd2" required />
+        验证码：<input type="text" name="captcha" required />
+        <img src="/shop/index.php?c=user&a=captcha" id="captcha" title="点击刷新验证码" />
+        <input type="submit" id="regBtn" value="注册" />
+        <a href="/shop/index.php?c=user&a=login">返回登录</a><a href="/">返回首页</a>
+    </form>
+</body>
+<script>
+    $(function(){
+        var $img = $("#captcha");
+        var src = $img.attr("src")+"&_=";
+        $img.click(function(){
+            $img.attr("src",src+Math.random());             //添加随机数，防止浏览器缓存图片
+        });
+
+        //失去焦点时验证表单
+        $("#pwd2").blur(function(){
+            if($(this).val()!=$("#pwd").val()){
+                $(this).addClass('error');
+            }else{
+                $(this).removeClass('error');
+            }
+        });
+
+        //Ajax表单提交
+        $("#regForm").ajaxForm(function(){
+            //注册失败，刷新验证码
+            data.ok || $("$captcha").click();
+        });
+
+        //表单提交时验证表单
+        $("#regBtn").click(function(){
+            if($("#pwd2").val()!==$("#pwd").val()){
+                $.showTip('两次输入密码不一致！');
+                return false;
+            }
+        });
+    });
+    
+</script>
+</html>

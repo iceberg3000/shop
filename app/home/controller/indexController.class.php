@@ -33,4 +33,23 @@ class indexController extends commonController{
         $this->title = '商品列表';
         require ACTION_VIEW;
     }
+
+    //查看商品
+    public function goodsAction(){
+        $id = I('id','get','id');//要查看的商品ID
+        $Goods = D('Goods');
+        $Category = D('Category');
+        //查找当前商品
+        $data['goods'] = $Goods->getGoods($id);
+        if(empty($data['goods'])){
+            exit('您访问的商品不存在，已下架或删除！');
+        }
+        //查找推荐商品
+        $cids = $Category->getSubIds($data['goods']['category_id']);
+        $data['recommend'] = $Goods->getRecommendByCids($cids);
+        //查找分类导航
+        $data['path'] = $Category->getPath($data['goods']['category_id']);
+        $this->title = $data['goods']['name'].'-商城前台';
+        require ACTION_VIEW;
+    }
 }

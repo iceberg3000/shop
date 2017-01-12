@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品展示页</title>
+</head>
+<body>
+    当前位置：
+    <?php foreach($data['path'] as $v): ?>
+        <a href="/shop/index.php?a=find&cid=<?=$v['id']?>"><?=$v['name']?></a>&gt;
+    <?php endforeach;?>
+    <?=$data['goods']['name']?>
+    <!--引入商品相册-->
+    <?php //require COMMON_VIEW.'album.html';?>
+    <?=$data['goods']['name']?>
+    售价：<span class="price">￥<?=$data['goods']['price']?></span>
+    商品编号：<?=$data['goods']['sn']?>
+    累计销量：1000
+    评价：1000
+    配送至：北京（免运费)
+    购买数量：
+    <input type="button" value="-" class="cnt-btn"/>
+    <input type="text" value="1" id="num" class="num-btn" />
+    <input type="button" value="+" class="cnt-btn" />
+    (库存：<?=$data['goods']['stock']?>)
+    <a href="#" id="buy">立即购买</a>
+    <a href="#" id="addCart">加入购物车</a>
+    相关商品推荐
+    <?php foreach($data['recommend'] as $v): ?>
+        <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank">
+        <?php if($v['thumb']): ?>
+            <img src="/public/upload/small/<?=$v['thumb']?>" />
+        <?php else:?>
+            <img src="/public/home/images/preview.jpg" />
+        <?php endif;?>
+        </a>
+        <a href="/shop/index.php?a=goods&id=<?=$v['id']?>" target="_blank"><?=$v['name']?></a>
+    <?php endforeach;?>
+    商品详情<?=$data['goods']['desc']?>
+</body>
+</html>
